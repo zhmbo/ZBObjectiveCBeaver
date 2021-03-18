@@ -1,0 +1,16 @@
+PODS:
+  - ZBObjectiveCBeaver (0.1.0)
+
+DEPENDENCIES:
+  - ZBObjectiveCBeaver (from `../`)
+
+EXTERNAL SOURCES:
+  ZBObjectiveCBeaver:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  ZBObjectiveCBeaver: 9a8ba661e033919971b1b270884fb5fe86b451c5
+
+PODFILE CHECKSUM: e810ae0749373a2648e77783e78e3e3db488a0bd
+
+COCOAPODS: 1.10.1
