@@ -1,10 +1,5 @@
 # ZBObjectiveCBeaver
 
-[![CI Status](https://img.shields.io/travis/itzhangbao/ZBObjectiveCBeaver.svg?style=flat)](https://travis-ci.org/itzhangbao/ZBObjectiveCBeaver)
-[![Version](https://img.shields.io/cocoapods/v/ZBObjectiveCBeaver.svg?style=flat)](https://cocoapods.org/pods/ZBObjectiveCBeaver)
-[![License](https://img.shields.io/cocoapods/l/ZBObjectiveCBeaver.svg?style=flat)](https://cocoapods.org/pods/ZBObjectiveCBeaver)
-[![Platform](https://img.shields.io/cocoapods/p/ZBObjectiveCBeaver.svg?style=flat)](https://cocoapods.org/pods/ZBObjectiveCBeaver)
-
 ## Example
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
