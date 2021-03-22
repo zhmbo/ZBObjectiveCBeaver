@@ -9,18 +9,35 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface NSString(ZBAES256)
- 
-- (NSString *)aes256_encrypt:(NSString *)key;
-- (NSString *)aes256_decrypt:(NSString *)key;
- 
-@end
+#pragma mark - AES CBC 加解密
+
+NSString * KADSYAESCBCEncryptData(NSString *content, NSString *key, NSString *iv);
+
+NSString * KADSYAESCBCDecryptData(NSString *content, NSString *key, NSString *iv);
 
 @interface NSData(ZBAES256)
- 
-- (NSData *)aes256_encrypt:(NSString *)key;
-- (NSData *)aes256_decrypt:(NSString *)key;
- 
+/**
+ AES CBC 128位加密模式
+ */
+- (nullable NSData *)AESCBC128EncryptWithKey:(NSString *)key gIv:(NSString *)Iv;
+/**
+AES CBC 128位解密模式
+*/
+- (nullable NSData *)AESCBC128DecryptWithKey:(NSString *)key gIv:(NSString *)Iv;
+/**
+AES CBC 256位加密模式
+*/
+- (nullable NSData *)AESCBC256EncryptWithKey:(NSString *)key gIv:(NSString *)Iv;
+/**
+AES CBC 256位解密模式
+*/
+- (nullable NSData *)AESCBC256DecryptWithKey:(NSString *)key gIv:(NSString *)Iv;
+
+/**
+AES CBC 256位解密模式
+*/
+- (nullable NSData *)AESCBC256OpenDecryptWithKey:(NSString *)key gIv:(NSString *)Iv;
+
 @end
 
 NS_ASSUME_NONNULL_END

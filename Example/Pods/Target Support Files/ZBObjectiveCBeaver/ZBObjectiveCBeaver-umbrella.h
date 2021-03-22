@@ -10,6 +10,7 @@
 #endif
 #endif
 
+#import "ZBAES256.h"
 #import "ZBBaseDestination.h"
 #import "ZBConsoleDestinatioin.h"
 #import "ZBFileDestination.h"

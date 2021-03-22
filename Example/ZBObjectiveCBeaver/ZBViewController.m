@@ -52,10 +52,14 @@
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     
-    ZBLogWarn(@"zb log warning.");
-    ZBLogInfo(@"zb log info.");
-    ZBLogVerbose(@"zb log verbose.");
-    ZBLogError(@"zb log error.");
+//    ZBLogWarn(@"zb log warning.");
+//    ZBLogInfo(@"zb log info.");
+//    ZBLogInfo(@"zb log verbose.");
+    ZBLogInfo(@"oc 1zb log error.");
+    ZBLogInfo(@"oc 2zb log error.");
+    ZBLogInfo(@"oc 3zb log error.");
+    ZBLogInfo(@"oc 4zb log error.");
+    ZBLogInfo(@"oc 5zb log error.");
 }
 
 - (void)didReceiveMemoryWarning

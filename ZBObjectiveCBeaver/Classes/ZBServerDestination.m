@@ -38,29 +38,6 @@
     return self.uuid;
 }
 
-- (instancetype)init
-{
-    self = [super init];
-    if (self) {
-        _showNSLog = NO;
-        
-        _entriesFileURL = [NSURL fileURLWithPath:@""];
-        _sendingFileURL = [NSURL fileURLWithPath:@""];
-        _analyticsFileURL = [NSURL fileURLWithPath:@""];
-        
-        _minAllowedThreshold = 1;
-        _maxAllowedThreshold = 1000;
-        _sendingInProgress = NO;
-        _initialSending = YES;
-        
-        _uuid = @"";
-        
-        _fileManager = [NSFileManager defaultManager];
-        _isoDateFormatter = [[NSDateFormatter alloc] init];
-    }
-    return self;
-}
-
 - (instancetype)initWithAppID:(NSString *)appID
                     appSecret:(NSString *)appSecret
                 encryptionKey:(NSString *)encryptionKey {
@@ -80,8 +57,25 @@
               entriesFileName:(NSString *)entriesFileName
               sendingfileName:(NSString *)sendingfileName
             analyticsFileName:(NSString *)analyticsFileName {
-    self = [self init];
+    self = [super init];
     if (self) {
+        
+        _showNSLog = NO;
+        
+        _entriesFileURL = [NSURL fileURLWithPath:@""];
+        _sendingFileURL = [NSURL fileURLWithPath:@""];
+        _analyticsFileURL = [NSURL fileURLWithPath:@""];
+        
+        _minAllowedThreshold = 1;
+        _maxAllowedThreshold = 1000;
+        _sendingInProgress = NO;
+        _initialSending = YES;
+        
+        _uuid = @"";
+        
+        _fileManager = [NSFileManager defaultManager];
+        _isoDateFormatter = [[NSDateFormatter alloc] init];
+        
         _serverURL = serverURL;
         _appID = appID;
         _appSecret = appSecret;
@@ -152,7 +146,7 @@
 
 // MARK: Send-to-Server Logic
 
-/// does a (manual) sending attempt of all unsent log entries to SwiftyBeaver Platform
+/// does a (manual) sending attempt of all unsent log entries to zb server
 - (void)sendNow {
     if ([self sendFileExists]) {
         [self toNSLog:@"reset points to 0"];
@@ -213,7 +207,7 @@
     }
 }
 
-// sends a string to the SwiftyBeaver Platform server, returns ok if status 200 and HTTP status
+// sends a string to the zb beaver server, returns ok if status 200 and HTTP status
 - (void)sendToServerAsync:(NSString *)str complete:(void(^)(BOOL ok, NSInteger status))complete {
     
     NSUInteger timeout = 10.0;
@@ -238,6 +232,7 @@
         [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
         [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
         
+        // Authorization
         NSData *credentials = [[NSString stringWithFormat:@"%@:%@", _appID, _appSecret] dataUsingEncoding:NSUTF8StringEncoding];
         if (!credentials) {
             if (complete) {
@@ -245,17 +240,13 @@
             }
             return;
         }
-        
         NSString *base64Credentials = [credentials base64EncodedStringWithOptions:0];
-        
-        [request setValue:[@"Basic " stringByAppendingString:base64Credentials] forHTTPHeaderField:@"Authorization"];
-        
+        [request setValue:[NSString stringWithFormat: @"Basic %@", base64Credentials] forHTTPHeaderField:@"Authorization"];
         
         // POST parameters
         NSDictionary *params = @{@"payload": str};
-        
         NSError *error = nil;
-        NSData *bodyData = [NSJSONSerialization dataWithJSONObject:params options:0 error:&error];
+        NSData *bodyData = [NSJSONSerialization dataWithJSONObject:params options:NSJSONWritingPrettyPrinted error:&error];
         [request setHTTPBody:bodyData];
         if (error) {
             [self toNSLog:[NSString stringWithFormat:@"Error! Could not create JSON for server payload."]];
@@ -549,9 +540,22 @@
     }
 }
 
+/**
+ 生成随机字母
+ */
+- (NSString *)randomString:(NSInteger)number {
+    NSString *kRandomAlphabet = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    NSMutableString *randomString = [NSMutableString stringWithCapacity:number];
+    for (int i = 0; i < number; i++) {
+        [randomString appendFormat: @"%C", [kRandomAlphabet characterAtIndex:arc4random_uniform((u_int32_t)[kRandomAlphabet length])]];
+    }
+    return randomString;
+}
+
 /// returns AES-256 CBC encrypted optional string
 - (NSString *)encrypt:(NSString *)str {
-    return [str aes256_encrypt:_encryptionKey];
+    NSString *vi = [self randomString:16];
+    return [NSString stringWithFormat:@"%@%@",vi, KADSYAESCBCEncryptData(str, _encryptionKey, vi)];
 }
 
 /// Delete file to get started again
