@@ -11,14 +11,9 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '9.0'
 
   s.source_files = 'ZBObjectiveCBeaver/*.{h,m}'
-  s.default_subspecs = 'Core'
   
   s.subspec 'AVOSCloud' do |ss|
     ss.source_files = 'ZBObjectiveCBeaver/AVOSCloud/**/*'
-  end
-  
-  s.subspec 'Core' do |ss|
-    ss.source_files = 'ZBObjectiveCBeaver/Core/*.{h,m}'
   end
 
   s.frameworks  = "UIKit", "AVFoundation"
