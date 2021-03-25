@@ -373,6 +373,9 @@
 		DB38B132260C5FF700BB87BA /* LCRouter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCRouter.m; sourceTree = "<group>"; };
 		DB38B133260C5FF700BB87BA /* LCRouter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCRouter.h; sourceTree = "<group>"; };
 		DB38B134260C5FF700BB87BA /* LCRouter_Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCRouter_Internal.h; sourceTree = "<group>"; };
+		DB38B1D6260C624F00BB87BA /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		DB38B1D7260C624F00BB87BA /* ZBObjectiveCBeaver.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = ZBObjectiveCBeaver.podspec; sourceTree = "<group>"; };
+		DB38B1D8260C624F00BB87BA /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -397,6 +400,7 @@
 		DB38AE02260B174700BB87BA = {
 			isa = PBXGroup;
 			children = (
+				DB38B1D5260C623000BB87BA /* Podspec Metadata */,
 				DB38AE0E260B174700BB87BA /* ZBObjectiveCBeaver */,
 				DB38AE19260B174700BB87BA /* ZBObjectiveCBeaverTests */,
 				DB38AE0D260B174700BB87BA /* Products */,
@@ -792,6 +796,16 @@
 				DB38B134260C5FF700BB87BA /* LCRouter_Internal.h */,
 			);
 			path = Router;
+			sourceTree = "<group>";
+		};
+		DB38B1D5260C623000BB87BA /* Podspec Metadata */ = {
+			isa = PBXGroup;
+			children = (
+				DB38B1D6260C624F00BB87BA /* LICENSE */,
+				DB38B1D8260C624F00BB87BA /* README.md */,
+				DB38B1D7260C624F00BB87BA /* ZBObjectiveCBeaver.podspec */,
+			);
+			name = "Podspec Metadata";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
