@@ -33,7 +33,7 @@ TODO: Add long description of the pod here.
   s.source_files = 'ZBObjectiveCBeaver/*.{h,m}'
   
   s.subspec 'AVOSCloud' do |ss|
-    ss.source_files = 'ZBObjectiveCBeaver/AVOSCloud/*.{h,m}'
+    ss.source_files = 'ZBObjectiveCBeaver/AVOSCloud/**/*'
   end
   
   # s.resource_bundles = {
