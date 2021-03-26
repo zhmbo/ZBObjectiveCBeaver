@@ -23,7 +23,7 @@ Pod::Spec.new do |s|
   end
   
   s.subspec 'AVOSCloud' do |ss|
-    ss.source_files = 'ZBObjectiveCBeaver/AVOSCloud/**/*.{h,m}'
+    ss.source_files = 'ZBObjectiveCBeaver/AVOSCloud/**/*'
     ss.dependency 'ZBObjectiveCBeaver/Core'
   end
 
