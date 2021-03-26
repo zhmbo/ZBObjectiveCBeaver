@@ -807,6 +807,10 @@
 				DB38AE29260B189000BB87BA /* ZBBaseDestination.m */,
 				DB38AE2E260B189000BB87BA /* ZBConsoleDestinatioin.h */,
 				DB38AE34260B189100BB87BA /* ZBConsoleDestinatioin.m */,
+				DB38AE28260B189000BB87BA /* ZBFilter.h */,
+				DB38AE2B260B189000BB87BA /* ZBFilter.m */,
+				DB38AE2D260B189000BB87BA /* ZBFileDestination.h */,
+				DB38AE2F260B189100BB87BA /* ZBFileDestination.m */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -814,12 +818,8 @@
 		DB38B22B260DB39300BB87BA /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				DB38AE2D260B189000BB87BA /* ZBFileDestination.h */,
-				DB38AE2F260B189100BB87BA /* ZBFileDestination.m */,
 				DB38AE32260B189100BB87BA /* ZBAES256.h */,
 				DB38AE31260B189100BB87BA /* ZBAES256.m */,
-				DB38AE28260B189000BB87BA /* ZBFilter.h */,
-				DB38AE2B260B189000BB87BA /* ZBFilter.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";

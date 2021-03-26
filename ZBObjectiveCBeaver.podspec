@@ -11,14 +11,19 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '9.0'
 
   s.source_files = 'ZBObjectiveCBeaver/ZBObjectiveCBeaver.h', 'ZBObjectiveCBeaver/ZBLogMacros.h'
-  s.default_subspec = 'Core'
+  s.default_subspec = 'Core', 'Utils'
     
   s.subspec 'Core' do |ss|
     ss.source_files = 'ZBObjectiveCBeaver/Core/*'
+    ss.dependency 'ZBObjectiveCBeaver/Utils'
+  end
+    
+  s.subspec 'Utils' do |ss|
+    ss.source_files = 'ZBObjectiveCBeaver/Utils/*'
   end
   
   s.subspec 'AVOSCloud' do |ss|
-    ss.source_files = 'ZBObjectiveCBeaver/AVOSCloud/**/*'
+    ss.source_files = 'ZBObjectiveCBeaver/AVOSCloud/**/*.{h,m}'
     ss.dependency 'ZBObjectiveCBeaver/Core'
   end
 
