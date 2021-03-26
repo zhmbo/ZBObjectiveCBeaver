@@ -7,11 +7,10 @@
 
 #import <UIKit/UIKit.h>
 #import "ZBServerDestination.h"
-#import "ZBAES256.h"
 #import <sys/utsname.h>
 
-#if __has_include(<ZBObjectiveCBeaver/AVOSCloud.h>)
-#import <ZBObjectiveCBeaver/AVOSCloud.h>
+#if __has_include(<ZBObjectiveCBeaver/ZBAVOSCloudDestination.h>)
+#import <ZBObjectiveCBeaver/ZBAVOSCloudDestination.h>
 #endif
 
 @interface ZBServerDestination()
@@ -35,41 +34,12 @@
 
 @property (nonatomic, strong) NSDateFormatter *isoDateFormatter;
 
-@property (nonatomic, assign) BOOL isAvOSCloud;
-
 @end
 
 @implementation ZBServerDestination
 
 - (NSString *)analyticsUUID {
     return self.uuid;
-}
-
-+ (instancetype)avosCloudAppID:(NSString *)appID
-                     appSecret:(NSString *)appSecret
-                     serverURL:(NSString *)serverURL {
-    return [[self alloc] initWithAppID:appID
-                             appSecret:appSecret
-                         encryptionKey:@""
-                             serverURL:serverURL
-                       entriesFileName:@"zbserver_entries.json"
-                       sendingfileName:@"zbserver_entries_sending.json"
-                     analyticsFileName:@"zbserver_analytics.json"
-                           isAvOSCloud:YES];
-}
-
-+ (instancetype)custumAPIServerAppID:(NSString *)appID
-                           appSecret:(NSString *)appSecret
-                       encryptionKey:(NSString *)encryptionKey
-                           serverURL:(NSString *)serverURL {
-    return [[self alloc] initWithAppID:appID
-                             appSecret:appSecret
-                         encryptionKey:encryptionKey
-                             serverURL:serverURL
-                       entriesFileName:@"zbserver_entries.json"
-                       sendingfileName:@"zbserver_entries_sending.json"
-                     analyticsFileName:@"zbserver_analytics.json"
-                           isAvOSCloud:NO];
 }
 
 - (instancetype)initWithAppID:(NSString *)appID
@@ -79,22 +49,11 @@
               entriesFileName:(NSString *)entriesFileName
               sendingfileName:(NSString *)sendingfileName
             analyticsFileName:(NSString *)analyticsFileName
-                  isAvOSCloud:(BOOL)isAvOSCloud {
+                   serverType:(ZBServerType)serverType {
     self = [super init];
     if (self) {
         
         _showNSLog = NO;
-        
-        _isAvOSCloud = isAvOSCloud;
-        
-        if (isAvOSCloud) {
-#if __has_include(<ZBObjectiveCBeaver/AVOSCloud.h>)
-            [AVOSCloud setApplicationId:appID
-                              clientKey:appSecret
-                        serverURLString:serverURL];
-            [AVOSCloud setAllLogsEnabled:YES];
-#endif
-        }
         
         _entriesFileURL = [NSURL fileURLWithPath:@""];
         _sendingFileURL = [NSURL fileURLWithPath:@""];
@@ -104,6 +63,8 @@
         _maxAllowedThreshold = 1000;
         _sendingInProgress = NO;
         _initialSending = YES;
+        
+        _serverType = serverType;
         
         _uuid = @"";
         
@@ -118,9 +79,19 @@
         NSURL *baseURL = [_fileManager URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask].firstObject;
         
         if (baseURL) {
-            _entriesFileURL = [baseURL URLByAppendingPathComponent:entriesFileName isDirectory:NO];
-            _sendingFileURL = [baseURL URLByAppendingPathComponent:sendingfileName isDirectory:NO];
-            _analyticsFileURL = [baseURL URLByAppendingPathComponent:analyticsFileName isDirectory:NO];
+            
+            NSString *_entriesFileName =
+            entriesFileName.length > 0 ? entriesFileName : @"zbserver_entries.json";
+            
+            NSString *_sendingfileName =
+            sendingfileName.length > 0 ? sendingfileName : @"zbserver_entries_sending.json";
+            
+            NSString *_analyticsFileName =
+            analyticsFileName.length > 0 ? analyticsFileName : @"zbserver_analytics.json";
+            
+            _entriesFileURL = [baseURL URLByAppendingPathComponent:_entriesFileName isDirectory:NO];
+            _sendingFileURL = [baseURL URLByAppendingPathComponent:_sendingfileName isDirectory:NO];
+            _analyticsFileURL = [baseURL URLByAppendingPathComponent:_analyticsFileName isDirectory:NO];
             
             // get, update loaded and save analytics data to file on start
             NSDictionary *dict = [self analytics:YES];
@@ -213,10 +184,21 @@
                 analyticsDict[key] = deviceDetailsDict[key];
             }
             
-            if (_isAvOSCloud) {
-                [self sendToAvosCloudWithDevice:analyticsDict logs:logEntries];
+            _sendingInProgress = YES;
+            
+            __weak typeof(self) _self = self;
+            void (^complete)(BOOL) = ^(BOOL ok) {
+                if (ok) {
+                    [_self deleteFile:_self.sendingFileURL];
+                }
+                _self.sendingInProgress = NO;
+                _self.points = 0;
+            };
+            
+            if (_serverType == ZBServerTypeAVOSCloud) {
+                [self sendToAvosCloudWithDevice:analyticsDict logs:logEntries complete:complete];
             }else {
-                [self sendToCustmAPIWithDevice:analyticsDict logs:logEntries];
+                [self sendToCustmAPIWithDevice:analyticsDict logs:logEntries complete:complete];
             }
             
         }else {
@@ -226,153 +208,13 @@
 }
 
 // Send information to custom AVOSCLOUD (https://leancloud.cn/)
-- (void)sendToAvosCloudWithDevice:(NSDictionary *)deviceDic logs:(NSArray *)logs {
+- (void)sendToAvosCloudWithDevice:(NSDictionary *)deviceDic logs:(NSArray *)logs complete:(void(^)(BOOL ok))complete {
     
-#if __has_include(<ZBObjectiveCBeaver/AVOSCloud.h>)
-    
-    //toNSLog(str)  // uncomment to see full payload
-    [self toNSLog:[NSString stringWithFormat:@"Encrypting %ld log entries ...", (long)logs.count]];
-    
-    AVObject *avObj = [AVObject objectWithClassName:@"Device" dictionary:deviceDic];
-//    avObj.objectId = self.uuid;
-    NSMutableArray *obArr1 = [NSMutableArray new];
-    [obArr1 addObject:avObj];
-    
-    for (NSDictionary *dict in logs) {
-        AVObject *avObj = [AVObject objectWithClassName:@"Logs" dictionary:dict];
-        [obArr1 addObject:avObj];
-    }
-    _sendingInProgress = YES;
-    [self toNSLog:[NSString stringWithFormat:@"Sending %ld log) to server ...", (long)logs.count]];
-    __weak typeof(self) _self = self;
-    [AVObject saveAllInBackground:obArr1 block:^(BOOL succeeded, NSError * _Nullable error) {
-        
-        [_self toNSLog:[NSString stringWithFormat:@"Sent %lu encrypted log entries to server, received ok: %d", (unsigned long)obArr1.count, succeeded]];
-        if (succeeded) {
-            [_self deleteFile:_self.sendingFileURL];
-        }
-        _self.sendingInProgress = NO;
-        _self.points = 0;
-    }];
-    
-#else
-    
-    [self toNSLog:@"has not avoscloud.framework"];
-    
-#endif
 }
 
 // Send information to custom server
-- (void)sendToCustmAPIWithDevice:(NSDictionary *)deviceDic logs:(NSArray *)logs {
+- (void)sendToCustmAPIWithDevice:(NSDictionary *)deviceDic logs:(NSArray *)logs complete:(void(^)(BOOL ok))complete {
     
-    NSMutableDictionary *payload = [NSMutableDictionary new];
-    payload[@"device"] = deviceDic;
-    payload[@"entries"] = logs;
-    
-    NSString *str = [self jsonStringFromDict:payload];
-    if (str && ![str isEqualToString:@""]) {
-        //toNSLog(str)  // uncomment to see full payload
-        [self toNSLog:[NSString stringWithFormat:@"Encrypting %ld log entries ...", (long)logs.count]];
-        
-        NSString *encryptedStr = [self encrypt:str];
-        if (encryptedStr.length > 0) {
-            [self toNSLog:[NSString stringWithFormat:@"Sending %ld encrypted log entries %lu chars) to server ...", (long)logs.count, (unsigned long)encryptedStr.length]];
-            __weak __typeof__(self) weakSelf = self;
-            [self sendToServerAsync:encryptedStr complete:^(BOOL ok, NSInteger status) {
-                [weakSelf toNSLog:[NSString stringWithFormat:@"Sent %lu encrypted log entries to server, received ok: %d", (unsigned long)logs.count, ok]];
-                if (ok) {
-                    [weakSelf deleteFile:weakSelf.sendingFileURL];
-                }
-                weakSelf.sendingInProgress = NO;
-                weakSelf.points = 0;
-            }];
-        }
-    }
-}
-
-// sends a string to the zb beaver server, returns ok if status 200 and HTTP status
-- (void)sendToServerAsync:(NSString *)str complete:(void(^)(BOOL ok, NSInteger status))complete {
-    
-    NSUInteger timeout = 10.0;
-    
-    if (str.length > 0 && self.queue != nil) {
-        // create operation queue which uses current serial queue of destination
-        NSOperationQueue *operationQueue = [[NSOperationQueue alloc] init];
-        operationQueue.underlyingQueue = self.queue;
-        
-        NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
-        NSURLSession *session =
-        [NSURLSession sessionWithConfiguration:config
-                                      delegate:nil
-                                 delegateQueue:operationQueue];
-        
-        [self toNSLog:@"assembling request ..."];
-        
-        NSString *serverURLStr = (_serverURL && _serverURL.length > 0) ? _serverURL : @"https://api.swiftybeaver.com/api/entries/";
-        // assemble request
-        NSMutableURLRequest *request =
-        [NSMutableURLRequest requestWithURL:[NSURL URLWithString:serverURLStr] cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:timeout];
-        [request setHTTPMethod:@"POST"];
-        [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
-        
-        // Authorization
-        NSData *credentials = [[NSString stringWithFormat:@"%@:%@", _appID, _appSecret] dataUsingEncoding:NSUTF8StringEncoding];
-        if (!credentials) {
-            if (complete) {
-                complete(NO, 0);
-            }
-            return;
-        }
-        NSString *base64Credentials = [credentials base64EncodedStringWithOptions:0];
-        [request setValue:[NSString stringWithFormat: @"Basic %@", base64Credentials] forHTTPHeaderField:@"Authorization"];
-        
-        // POST parameters
-        NSDictionary *params = @{@"payload": str};
-        NSError *error = nil;
-        NSData *bodyData = [NSJSONSerialization dataWithJSONObject:params options:NSJSONWritingPrettyPrinted error:&error];
-        [request setHTTPBody:bodyData];
-        if (error) {
-            [self toNSLog:[NSString stringWithFormat:@"Error! Could not create JSON for server payload."]];
-            if (complete) {
-                complete(NO, 0);
-            }
-            return;
-        }
-        [self toNSLog: [NSString stringWithFormat:@"sending params: %@", params]];
-        [self toNSLog:@"sending..."];
-        
-        _sendingInProgress = YES;
-        
-        
-        // send request async to server on destination queue
-        NSURLSessionTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-            BOOL ok = NO;
-            NSInteger status = 0;
-            [self toNSLog: @"received response server"];
-            
-            if (error) {
-                [self toNSLog:[NSString stringWithFormat:@"Error! Could not send entries to server %@.", error]];
-            }else {
-                
-                if (response) {
-                    status = [(NSHTTPURLResponse *)response statusCode];
-                    if (status == 200) {
-                        // all went well, entries were uploaded to server
-                        ok = YES;
-                    }else {
-                        // status code was not 200
-                        [self toNSLog:[NSString stringWithFormat:@"Error! Sending entries to server failed with status code %ld", (long)status]];
-                    }
-                }
-            }
-            if (complete) {
-                complete(ok, status);
-            }
-        }];
-        [task resume];
-        [session finishTasksAndInvalidate];
-    }
 }
 
 // MARK: Device & Analytics
@@ -622,24 +464,6 @@
     if (_showNSLog) {
         NSLog(@"ZBServer: %@", str);
     }
-}
-
-/**
- 生成随机字母
- */
-- (NSString *)randomString:(NSInteger)number {
-    NSString *kRandomAlphabet = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    NSMutableString *randomString = [NSMutableString stringWithCapacity:number];
-    for (int i = 0; i < number; i++) {
-        [randomString appendFormat: @"%C", [kRandomAlphabet characterAtIndex:arc4random_uniform((u_int32_t)[kRandomAlphabet length])]];
-    }
-    return randomString;
-}
-
-/// returns AES-256 CBC encrypted optional string
-- (NSString *)encrypt:(NSString *)str {
-    NSString *vi = [self randomString:16];
-    return [NSString stringWithFormat:@"%@%@",vi, KADSYAESCBCEncryptData(str, _encryptionKey, vi)];
 }
 
 /// Delete file to get started again

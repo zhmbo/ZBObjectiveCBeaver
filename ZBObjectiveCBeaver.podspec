@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'ZBObjectiveCBeaver'
-  s.version          = '0.5.0'
+  s.version          = '0.6.0'
   s.summary          = 'ios log.'
   s.description      = 'https://github.com/itzhangbao/ZBObjectiveCBeaver/blob/master/README.md'
   s.homepage         = 'https://github.com/itzhangbao/ZBObjectiveCBeaver'
@@ -10,8 +10,8 @@ Pod::Spec.new do |s|
 
   s.ios.deployment_target = '9.0'
 
-  s.source_files = 'ZBObjectiveCBeaver/ZBObjectiveCBeaver.h', 'ZBObjectiveCBeaver/ZBLogMacros.h'
-  s.default_subspec = 'Core', 'Utils'
+  s.source_files = 'ZBObjectiveCBeaver/ZBObjectiveCBeaver.h'
+  s.default_subspec = 'Core', 'Utils', 'CustomAPI'
     
   s.subspec 'Core' do |ss|
     ss.source_files = 'ZBObjectiveCBeaver/Core/*'
@@ -21,10 +21,18 @@ Pod::Spec.new do |s|
   s.subspec 'Utils' do |ss|
     ss.source_files = 'ZBObjectiveCBeaver/Utils/*'
   end
+    
+  s.subspec 'CustomAPI' do |ss|
+    ss.source_files = 'ZBObjectiveCBeaver/CustomAPI/*'
+    ss.dependency 'ZBObjectiveCBeaver/Utils'
+    ss.dependency 'ZBObjectiveCBeaver/Core'
+  end
   
   s.subspec 'AVOSCloud' do |ss|
-    ss.source_files = 'ZBObjectiveCBeaver/AVOSCloud/**/*'
+    ss.source_files = 'ZBObjectiveCBeaver/AVOSCloud/*'
+    ss.dependency 'ZBObjectiveCBeaver/Utils'
     ss.dependency 'ZBObjectiveCBeaver/Core'
+    ss.dependency 'AVOSCloud'
   end
 
   s.frameworks  = "UIKit", "AVFoundation"

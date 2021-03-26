@@ -182,6 +182,12 @@
 		DB38B1CE260C600900BB87BA /* LCRouter.m in Sources */ = {isa = PBXBuildFile; fileRef = DB38B132260C5FF700BB87BA /* LCRouter.m */; };
 		DB38B1CF260C600900BB87BA /* LCRouter.h in Headers */ = {isa = PBXBuildFile; fileRef = DB38B133260C5FF700BB87BA /* LCRouter.h */; };
 		DB38B1D0260C600900BB87BA /* LCRouter_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = DB38B134260C5FF700BB87BA /* LCRouter_Internal.h */; };
+		DBF51F60260DCA80009421F6 /* ZBAVOSCloudDestination.h in Headers */ = {isa = PBXBuildFile; fileRef = DBF51F5E260DCA80009421F6 /* ZBAVOSCloudDestination.h */; };
+		DBF51F61260DCA80009421F6 /* ZBAVOSCloudDestination.m in Sources */ = {isa = PBXBuildFile; fileRef = DBF51F5F260DCA80009421F6 /* ZBAVOSCloudDestination.m */; };
+		DBF51F6A260DDDF4009421F6 /* ZBCustomAPIDestination.h in Headers */ = {isa = PBXBuildFile; fileRef = DBF51F68260DDDF4009421F6 /* ZBCustomAPIDestination.h */; };
+		DBF51F6B260DDDF4009421F6 /* ZBCustomAPIDestination.m in Sources */ = {isa = PBXBuildFile; fileRef = DBF51F69260DDDF4009421F6 /* ZBCustomAPIDestination.m */; };
+		DBF51F70260DE210009421F6 /* NSDictionary+ZBEx.h in Headers */ = {isa = PBXBuildFile; fileRef = DBF51F6E260DE210009421F6 /* NSDictionary+ZBEx.h */; };
+		DBF51F71260DE210009421F6 /* NSDictionary+ZBEx.m in Sources */ = {isa = PBXBuildFile; fileRef = DBF51F6F260DE210009421F6 /* NSDictionary+ZBEx.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -376,6 +382,12 @@
 		DB38B1D6260C624F00BB87BA /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		DB38B1D7260C624F00BB87BA /* ZBObjectiveCBeaver.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = ZBObjectiveCBeaver.podspec; sourceTree = "<group>"; };
 		DB38B1D8260C624F00BB87BA /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		DBF51F5E260DCA80009421F6 /* ZBAVOSCloudDestination.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZBAVOSCloudDestination.h; sourceTree = "<group>"; };
+		DBF51F5F260DCA80009421F6 /* ZBAVOSCloudDestination.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZBAVOSCloudDestination.m; sourceTree = "<group>"; };
+		DBF51F68260DDDF4009421F6 /* ZBCustomAPIDestination.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZBCustomAPIDestination.h; sourceTree = "<group>"; };
+		DBF51F69260DDDF4009421F6 /* ZBCustomAPIDestination.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZBCustomAPIDestination.m; sourceTree = "<group>"; };
+		DBF51F6E260DE210009421F6 /* NSDictionary+ZBEx.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+ZBEx.h"; sourceTree = "<group>"; };
+		DBF51F6F260DE210009421F6 /* NSDictionary+ZBEx.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+ZBEx.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -400,6 +412,7 @@
 		DB38AE02260B174700BB87BA = {
 			isa = PBXGroup;
 			children = (
+				DB38B082260C5FF500BB87BA /* AVOSCloud */,
 				DB38B1D5260C623000BB87BA /* Podspec Metadata */,
 				DB38AE0E260B174700BB87BA /* ZBObjectiveCBeaver */,
 				DB38AE19260B174700BB87BA /* ZBObjectiveCBeaverTests */,
@@ -421,10 +434,10 @@
 			isa = PBXGroup;
 			children = (
 				DB38AE0F260B174700BB87BA /* ZBObjectiveCBeaver.h */,
-				DB38AE36260B189100BB87BA /* ZBLogMacros.h */,
 				DB38B22B260DB39300BB87BA /* Utils */,
 				DB38B22A260DB36000BB87BA /* Core */,
-				DB38B082260C5FF500BB87BA /* AVOSCloud */,
+				DBF51F64260DCB73009421F6 /* AVOSCloud */,
+				DBF51F67260DDDD1009421F6 /* CustomAPI */,
 				DB38AE10260B174700BB87BA /* Info.plist */,
 			);
 			path = ZBObjectiveCBeaver;
@@ -801,6 +814,7 @@
 			children = (
 				DB38AE2C260B189000BB87BA /* ZBLog.h */,
 				DB38AE33260B189100BB87BA /* ZBLog.m */,
+				DB38AE36260B189100BB87BA /* ZBLogMacros.h */,
 				DB38AE30260B189100BB87BA /* ZBServerDestination.h */,
 				DB38AE35260B189100BB87BA /* ZBServerDestination.m */,
 				DB38AE2A260B189000BB87BA /* ZBBaseDestination.h */,
@@ -820,8 +834,28 @@
 			children = (
 				DB38AE32260B189100BB87BA /* ZBAES256.h */,
 				DB38AE31260B189100BB87BA /* ZBAES256.m */,
+				DBF51F6E260DE210009421F6 /* NSDictionary+ZBEx.h */,
+				DBF51F6F260DE210009421F6 /* NSDictionary+ZBEx.m */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		DBF51F64260DCB73009421F6 /* AVOSCloud */ = {
+			isa = PBXGroup;
+			children = (
+				DBF51F5E260DCA80009421F6 /* ZBAVOSCloudDestination.h */,
+				DBF51F5F260DCA80009421F6 /* ZBAVOSCloudDestination.m */,
+			);
+			path = AVOSCloud;
+			sourceTree = "<group>";
+		};
+		DBF51F67260DDDD1009421F6 /* CustomAPI */ = {
+			isa = PBXGroup;
+			children = (
+				DBF51F68260DDDF4009421F6 /* ZBCustomAPIDestination.h */,
+				DBF51F69260DDDF4009421F6 /* ZBCustomAPIDestination.m */,
+			);
+			path = CustomAPI;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -887,6 +921,7 @@
 				DB38B135260C5FF700BB87BA /* LCNetworkStatistics.h in Headers */,
 				DB38B17C260C5FFF00BB87BA /* AVAvailability.h in Headers */,
 				DB38B13C260C5FF800BB87BA /* AVCacheManager.h in Headers */,
+				DBF51F60260DCA80009421F6 /* ZBAVOSCloudDestination.h in Headers */,
 				DB38AE37260B189100BB87BA /* ZBFilter.h in Headers */,
 				DB38B146260C5FF900BB87BA /* AVSMS.h in Headers */,
 				DB38B15F260C5FFC00BB87BA /* AVErrorUtils.h in Headers */,
@@ -919,6 +954,7 @@
 				DB38B168260C5FFD00BB87BA /* AVUser.h in Headers */,
 				DB38B179260C5FFF00BB87BA /* AVInstallation_Internal.h in Headers */,
 				DB38B18E260C600100BB87BA /* AVCloud.h in Headers */,
+				DBF51F6A260DDDF4009421F6 /* ZBCustomAPIDestination.h in Headers */,
 				DB38B176260C5FFE00BB87BA /* AVPush_Internal.h in Headers */,
 				DB38AE39260B189100BB87BA /* ZBBaseDestination.h in Headers */,
 				DB38B1BD260C600700BB87BA /* LCDatabaseAdditions.h in Headers */,
@@ -931,6 +967,7 @@
 				DB38B1BB260C600600BB87BA /* LCDatabaseQueue.h in Headers */,
 				DB38B19F260C600300BB87BA /* AVApplication_Internal.h in Headers */,
 				DB38B1D0260C600900BB87BA /* LCRouter_Internal.h in Headers */,
+				DBF51F70260DE210009421F6 /* NSDictionary+ZBEx.h in Headers */,
 				DB38B166260C5FFD00BB87BA /* NSDictionary+LeanCloud.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1062,6 +1099,8 @@
 				DB38B1CE260C600900BB87BA /* LCRouter.m in Sources */,
 				DB38B171260C5FFE00BB87BA /* AVCaptcha.m in Sources */,
 				DB38B197260C600200BB87BA /* AVQuery.m in Sources */,
+				DBF51F6B260DDDF4009421F6 /* ZBCustomAPIDestination.m in Sources */,
+				DBF51F61260DCA80009421F6 /* ZBAVOSCloudDestination.m in Sources */,
 				DB38B13F260C5FF800BB87BA /* AVFile.m in Sources */,
 				DB38B196260C600200BB87BA /* AVCloudQueryResult.m in Sources */,
 				DB38B1B8260C600600BB87BA /* LCDatabase.m in Sources */,
@@ -1099,6 +1138,7 @@
 				DB38B1C9260C600800BB87BA /* AVDuration.m in Sources */,
 				DB38B1B5260C600600BB87BA /* AVKeychain.m in Sources */,
 				DB38B1B3260C600600BB87BA /* LCHTTPSessionManager.m in Sources */,
+				DBF51F71260DE210009421F6 /* NSDictionary+ZBEx.m in Sources */,
 				DB38B1C3260C600800BB87BA /* AVAnalyticsUtils.m in Sources */,
 				DB38AE40260B189100BB87BA /* ZBAES256.m in Sources */,
 				DB38B157260C5FFB00BB87BA /* LCDatabaseCoordinator.m in Sources */,

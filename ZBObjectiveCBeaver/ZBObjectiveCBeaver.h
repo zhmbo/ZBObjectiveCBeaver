@@ -15,4 +15,6 @@
 #import "ZBConsoleDestinatioin.h"
 #import "ZBFileDestination.h"
 #import "ZBServerDestination.h"
-
+#if __has_include(<ZBObjectiveCBeaver/ZBAVOSCloudDestination.h>)
+#import <ZBObjectiveCBeaver/ZBAVOSCloudDestination.h>
+#endif

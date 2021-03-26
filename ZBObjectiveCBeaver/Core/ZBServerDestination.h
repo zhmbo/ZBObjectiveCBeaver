@@ -17,27 +17,23 @@ typedef NS_ENUM(NSUInteger, ZBSendingPoints) {
     ZBSendingPointsThreshold = 10 // send to server if points reach that value
 };
 
+typedef NS_ENUM(NSUInteger, ZBServerType) {
+    ZBServerTypeAVOSCloud,
+    ZBServerTypeCustomAPI
+};
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ZBServerDestination : ZBBaseDestination
 
-+ (instancetype)avosCloudAppID:(NSString *)appID
-                     appSecret:(NSString *)appSecret
-                     serverURL:(NSString *)serverURL;
-
-+ (instancetype)custumAPIServerAppID:(NSString *)appID
-                           appSecret:(NSString *)appSecret
-                       encryptionKey:(NSString *)encryptionKey
-                           serverURL:(nullable NSString *)serverURL;
-
 - (instancetype)initWithAppID:(NSString *)appID
                     appSecret:(NSString *)appSecret
                 encryptionKey:(NSString *)encryptionKey
-                    serverURL:(nullable NSString *)serverURL
-              entriesFileName:(nullable NSString *)entriesFileName
-              sendingfileName:(nullable NSString *)sendingfileName
-            analyticsFileName:(nullable NSString *)analyticsFileName
-                  isAvOSCloud:(BOOL)isAvOSCloud;
+                    serverURL:(nonnull NSString *)serverURL
+              entriesFileName:(nonnull NSString *)entriesFileName
+              sendingfileName:(nonnull NSString *)sendingfileName
+            analyticsFileName:(nonnull NSString *)analyticsFileName
+                   serverType:(ZBServerType)serverType;
 
 ///
 @property (nonatomic, copy) NSString *appID;
@@ -56,6 +52,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, assign) ZBSendingPoints sendingPoints;
 
+@property (nonatomic, assign) ZBServerType serverType;
+
 /// executes toNSLog statements to debug the class
 @property (nonatomic, assign) BOOL showNSLog;
 
@@ -69,6 +67,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// does a (manual) sending attempt of all unsent log entries to SwiftyBeaver Platform
 - (void)sendNow;
+
+// Send information to custom AVOSCLOUD (https://leancloud.cn/)
+- (void)sendToAvosCloudWithDevice:(NSDictionary *)deviceDic logs:(NSArray *)logs complete:(void(^)(BOOL ok))complete;
+
+// Send information to custom server
+- (void)sendToCustmAPIWithDevice:(NSDictionary *)deviceDic logs:(NSArray *)logs complete:(void(^)(BOOL ok))complete;
+
+/// log String to toNSLog. Used to debug the class logic
+- (void)toNSLog:(NSString *)str;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -7,6 +7,7 @@
 
 #import "ZBBaseDestination.h"
 #import "ZBLog.h"
+#import "NSDictionary+ZBEx.h"
 
 #ifndef ZB_DEBUG
     #define ZB_DEBUG 0
@@ -102,7 +103,7 @@
     if (context) {
         dict[@"context"] = context;
     }
-    return [self jsonStringFromDict:dict];
+    return [dict toJsonString];
 }
 
 ////////////////////////////////
@@ -295,38 +296,6 @@
     int milliseconds = (float)z/100000000.0;
     
     return [NSString stringWithFormat:@"%0.2d:%0.2d:%0.2d.%03d", hours, minutes, seconds, milliseconds];
-}
-
-// turns dict into JSON-encoded string
-- (NSString *)jsonStringFromDict:(NSDictionary *)dict {
-    
-    NSError *error;
-
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:&error];
-
-    NSString *jsonString;
-
-    if (!jsonData) {
-        
-        NSLogDebug(@"%@", error);
-        
-    }else{
-        
-        jsonString = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
-    }
-
-    NSMutableString *mutStr = [NSMutableString stringWithString:jsonString];
-
-    NSRange range = {0, jsonString.length};
-
-    //remove spaces from strings
-    [mutStr replaceOccurrencesOfString:@" " withString:@"" options:NSLiteralSearch range:range];
-    NSRange range2 = {0, mutStr.length};
-
-    //remove the newline character from the string
-    [mutStr replaceOccurrencesOfString:@"\n" withString:@"" options:NSLiteralSearch range:range2];
-
-    return mutStr;
 }
 
 ////////////////////////////////

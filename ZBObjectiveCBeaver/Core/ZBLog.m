@@ -35,7 +35,7 @@
 
 // version string of framework
 + (NSString *)version {
-    return @"0.1.0";
+    return @"0.6.0";
 }
 
 // build number of framework
