@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'ZBObjectiveCBeaver'
-  s.version          = '0.4.0'
+  s.version          = '0.5.0'
   s.summary          = 'ios log.'
   s.description      = 'https://github.com/itzhangbao/ZBObjectiveCBeaver/blob/master/README.md'
   s.homepage         = 'https://github.com/itzhangbao/ZBObjectiveCBeaver'
