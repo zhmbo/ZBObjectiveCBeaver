@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'ZBObjectiveCBeaver'
-  s.version          = '0.6.0'
+  s.version          = '0.7.0'
   s.summary          = 'ios log.'
   s.description      = 'https://github.com/itzhangbao/ZBObjectiveCBeaver/blob/master/README.md'
   s.homepage         = 'https://github.com/itzhangbao/ZBObjectiveCBeaver'
@@ -29,7 +29,7 @@ Pod::Spec.new do |s|
   end
   
   s.subspec 'AVOSCloud' do |ss|
-    ss.source_files = 'ZBObjectiveCBeaver/AVOSCloud/*'
+    ss.source_files = 'ZBObjectiveCBeaver/AVOSCloud/*', 'ZBObjectiveCBeaver/ZBObjectiveCBeaver.h'
     ss.dependency 'ZBObjectiveCBeaver/Utils'
     ss.dependency 'ZBObjectiveCBeaver/Core'
     ss.dependency 'AVOSCloud'
