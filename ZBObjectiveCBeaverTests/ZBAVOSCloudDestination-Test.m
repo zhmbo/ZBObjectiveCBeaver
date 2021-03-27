@@ -1,18 +1,19 @@
 //
-//  ZBServerDestination-Test.m
+//  ZBAVOSCloudDestination-Test.m
 //  ZBObjectiveCBeaverTests
 //
-//  Created by Jumbo on 2021/3/24.
+//  Created by Jumbo on 2021/3/27.
 //
 
 #import <XCTest/XCTest.h>
 #import "ZBObjectiveCBeaver/ZBObjectiveCBeaver.h"
 
-@interface ZBServerDestination_Test : XCTestCase
+
+@interface ZBAVOSCloudDestination_Test : XCTestCase
 
 @end
 
-@implementation ZBServerDestination_Test
+@implementation ZBAVOSCloudDestination_Test
 
 - (void)setUp {
     // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -25,16 +26,9 @@
 - (void)testExample {
     // This is an example of a functional test case.
     // Use XCTAssert and related functions to verify your tests produce the correct results.
-    
-//    ZBServerDestination *dest =
-//    [ZBServerDestination avosCloudAppID:@"P2KV6oTocgdFJFdeVWNHhWxT-MdYXbMMI"
-//                              appSecret:@"4ivNxvzl0e1YGIaEya7LjDo9"
-//                              serverURL:@""];
-//    dest.minLevel = ZBLogLevelError;
-//    dest.showNSLog = YES;
-//    [ZBLog addDestination:dest];
-    
-    ZBLogInfo(@"zb server test");
+    ZBAVOSCloudDestination *dest = [ZBAVOSCloudDestination destWithAppID:@""
+                                                                  appKey:@""
+                                                         serverURLString:@""];
 }
 
 - (void)testPerformanceExample {

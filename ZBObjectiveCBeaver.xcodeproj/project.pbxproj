@@ -188,6 +188,8 @@
 		DBF51F6B260DDDF4009421F6 /* ZBCustomAPIDestination.m in Sources */ = {isa = PBXBuildFile; fileRef = DBF51F69260DDDF4009421F6 /* ZBCustomAPIDestination.m */; };
 		DBF51F70260DE210009421F6 /* NSDictionary+ZBEx.h in Headers */ = {isa = PBXBuildFile; fileRef = DBF51F6E260DE210009421F6 /* NSDictionary+ZBEx.h */; };
 		DBF51F71260DE210009421F6 /* NSDictionary+ZBEx.m in Sources */ = {isa = PBXBuildFile; fileRef = DBF51F6F260DE210009421F6 /* NSDictionary+ZBEx.m */; };
+		DBF51FA6260ED9F4009421F6 /* ZBLog-Test.m in Sources */ = {isa = PBXBuildFile; fileRef = DBF51FA5260ED9F4009421F6 /* ZBLog-Test.m */; };
+		DBF51FAE260EDBAE009421F6 /* ZBAVOSCloudDestination-Test.m in Sources */ = {isa = PBXBuildFile; fileRef = DBF51FAD260EDBAE009421F6 /* ZBAVOSCloudDestination-Test.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -388,6 +390,8 @@
 		DBF51F69260DDDF4009421F6 /* ZBCustomAPIDestination.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZBCustomAPIDestination.m; sourceTree = "<group>"; };
 		DBF51F6E260DE210009421F6 /* NSDictionary+ZBEx.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+ZBEx.h"; sourceTree = "<group>"; };
 		DBF51F6F260DE210009421F6 /* NSDictionary+ZBEx.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+ZBEx.m"; sourceTree = "<group>"; };
+		DBF51FA5260ED9F4009421F6 /* ZBLog-Test.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ZBLog-Test.m"; sourceTree = "<group>"; };
+		DBF51FAD260EDBAE009421F6 /* ZBAVOSCloudDestination-Test.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ZBAVOSCloudDestination-Test.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -447,8 +451,10 @@
 			isa = PBXGroup;
 			children = (
 				DB38AE1C260B174700BB87BA /* Info.plist */,
+				DBF51FA5260ED9F4009421F6 /* ZBLog-Test.m */,
 				DB38AFB1260B1DA200BB87BA /* ZBServerDestination-Test.m */,
 				DB38B065260C2E8000BB87BA /* ZBConsoleDestination-Test.m */,
+				DBF51FAD260EDBAE009421F6 /* ZBAVOSCloudDestination-Test.m */,
 			);
 			path = ZBObjectiveCBeaverTests;
 			sourceTree = "<group>";
@@ -1149,8 +1155,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DBF51FA6260ED9F4009421F6 /* ZBLog-Test.m in Sources */,
 				DB38B066260C2E8000BB87BA /* ZBConsoleDestination-Test.m in Sources */,
 				DB38AFB2260B1DA200BB87BA /* ZBServerDestination-Test.m in Sources */,
+				DBF51FAE260EDBAE009421F6 /* ZBAVOSCloudDestination-Test.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

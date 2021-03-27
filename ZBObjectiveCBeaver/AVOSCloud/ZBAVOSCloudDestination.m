@@ -16,9 +16,9 @@
 @implementation ZBAVOSCloudDestination
 
 + (ZBAVOSCloudDestination *)destWithAppID:(NSString *)appID
-                       appKey:(NSString *)appKey
-              serverURLString:(NSString *)serverURLString
-{
+                                   appKey:(NSString *)appKey
+                          serverURLString:(NSString *)serverURLString {
+    
     [AVOSCloud setApplicationId:appID
                       clientKey:appKey
                 serverURLString:serverURLString];
