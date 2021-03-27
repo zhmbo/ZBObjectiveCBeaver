@@ -24,11 +24,18 @@
 }
 
 - (void)testExample {
-    // This is an example of a functional test case.
+    // This is an example of a functional test case.@"P2KV6oTocgdFJFdeVWNHhWxT-MdYXbMMI"
+    //                              appSecret:@"4ivNxvzl0e1YGIaEya7LjDo9"
     // Use XCTAssert and related functions to verify your tests produce the correct results.
-    ZBAVOSCloudDestination *dest = [ZBAVOSCloudDestination destWithAppID:@""
-                                                                  appKey:@""
-                                                         serverURLString:@""];
+    ZBAVOSCloudDestination *dest =
+    [ZBAVOSCloudDestination destWithAppID:@"P2KV6oTocgdFJFdeVWNHhWxT-MdYXbMMI"
+                                   appKey:@"4ivNxvzl0e1YGIaEya7LjDo9"
+                          serverURLString:@""];
+    dest.minLevel = ZBLogLevelError;
+    dest.showNSLog = YES;
+    [ZBLog addDestination:dest];
+    
+    ZBLogVerbose(@"TEST! vaoscloud logs.");
 }
 
 - (void)testPerformanceExample {
