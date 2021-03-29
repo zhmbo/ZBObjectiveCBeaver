@@ -24,8 +24,7 @@
 }
 
 - (void)testExample {
-    // This is an example of a functional test case.@"P2KV6oTocgdFJFdeVWNHhWxT-MdYXbMMI"
-    //                              appSecret:@"4ivNxvzl0e1YGIaEya7LjDo9"
+    // This is an example of a functional test case.
     // Use XCTAssert and related functions to verify your tests produce the correct results.
     ZBAVOSCloudDestination *dest =
     [ZBAVOSCloudDestination destWithAppID:@"P2KV6oTocgdFJFdeVWNHhWxT-MdYXbMMI"

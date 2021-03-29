@@ -49,7 +49,7 @@
         AVObject *avObj = [AVObject objectWithClassName:@"Logs" dictionary:dict];
         [obArr1 addObject:avObj];
     }
-    [self toNSLog:[NSString stringWithFormat:@"Sending %ld log) to server ...", (long)logs.count]];
+    [self toNSLog:[NSString stringWithFormat:@"Sending %ld log to server ...", (long)logs.count]];
     __weak typeof(self) _self = self;
     [AVObject saveAllInBackground:obArr1 block:^(BOOL succeeded, NSError * _Nullable error) {
         
